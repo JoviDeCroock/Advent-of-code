@@ -1,0 +1,16 @@
+{
+  "name": "2-placeholder-reason",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "bsb -make-world",
+    "start": "bsb -make-world -w",
+    "clean": "bsb -clean-world"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "bs-platform": "^5.2.1"
+  }
+}
