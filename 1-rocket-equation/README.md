@@ -22,7 +22,7 @@ The Fuel Counter-Upper needs to know the total fuel requirement. To find it, ind
 
 What is the sum of the fuel requirements for all of the modules on your spacecraft?
 
-**Answer: 3415309**
+**Answer: 3415076**
 
 ## Part 2
 
