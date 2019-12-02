@@ -1,22 +1,15 @@
 import allParts from './input.mjs';
 
-const DIVISION = 3;
-const SUBTRACTION = 2;
-
 // Helpers
-const roundDown = (input) => Math.floor(input);
-const divideBy = (input, x) => input / x;
-const subtract = (input, x) => input - x;
-const calculateFuel = (input) => subtract(roundDown(divideBy(input, DIVISION)), SUBTRACTION);
+const calculateFuel = (input) => Math.floor(input / 3) - 2;
 
 // Part 1
 const calculateTotalFuel = (parts) => parts.reduce((acc, part) => acc + calculateFuel(part), 0);
 
 // Part 2
-const calculateFuelRec = (input, total = 0) => {
+const calculateFuelRec = (input) => {
   const fuelNeeded = calculateFuel(input);
-  if (fuelNeeded > 0) return calculateFuelRec(fuelNeeded , total + fuelNeeded)
-  return total;
+  if (fuelNeeded > 0) return fuelNeeded + (calculateFuelRec(fuelNeeded) || 0);
 }
 
 const calculateTotalFuelRec = (parts) => parts.reduce((acc, part) => acc + calculateFuelRec(part), 0);
