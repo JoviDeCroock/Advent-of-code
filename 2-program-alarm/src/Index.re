@@ -1,14 +1,10 @@
 open Input;
 
-// Common logic
-let add = (first, second) => first + second;
-let multiply = (first, second) => first * second;
-
 let rec handleInput = (numbers, currentIndex) => {
   let result =
     switch(numbers[currentIndex]) {
-    | 1 => add(numbers[numbers[currentIndex + 1]], numbers[numbers[currentIndex + 2]])
-    | 2 => multiply(numbers[numbers[currentIndex + 1]], numbers[numbers[currentIndex + 2]]);
+    | 1 => numbers[numbers[currentIndex + 1]] + numbers[numbers[currentIndex + 2]]
+    | 2 => numbers[numbers[currentIndex + 1]] * numbers[numbers[currentIndex + 2]];
     | 99 => -1;
     | _ => raise(Not_found);
   }
