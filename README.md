@@ -13,7 +13,9 @@ If you want to participate in the [Advent-of-code](https://adventofcode.com/).
 
 - [Modern Javascript](http://es6-features.org/)
   - [Rocket-equation](./1-rocket-equation/src/index.mjs)
+  - [Secure-container](./4-secure-container/src/index.mjs)
 - [ReasonML](https://reasonml.github.io/en/)
   - [Program-alarm](./2-program-alarm/src/Index.re)
+  - [Sunny-day](./5-sunny-day/src/Index.re)
 - [Rust](https://www.rust-lang.org/)
   - [Crossed-wires](./3-crossed-wires/src/main.rs)
