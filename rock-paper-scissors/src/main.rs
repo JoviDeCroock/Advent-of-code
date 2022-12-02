@@ -1,6 +1,9 @@
 use std::fs;
 
-// TODO: refactor enums...
+use hand::{Hand, Result, Beats};
+
+mod hand;
+
 const POINTS_FOR_ROCK: i32 = 1;
 const POINTS_FOR_PAPER: i32 = 2;
 const POINTS_FOR_SCISSORS: i32 = 3;
@@ -9,104 +12,78 @@ const POINTS_FOR_LOSS: i32 = 0;
 const POINTS_FOR_DRAW: i32 = 3;
 const POINTS_FOR_WIN: i32 = 6;
 
-fn get_move(input: &char) -> String {
+fn get_move(input: &char) -> Option<Hand> {
     match input {
-        'A' | 'X' => String::from("Rock"),
-        'B' | 'Y' => String::from("Paper"),
-        'C' | 'Z' => String::from("Scissors"),
-        _ => String::from("None")
+        'A' | 'X' => Some(Hand::Rock),
+        'B' | 'Y' => Some(Hand::Paper),
+        'C' | 'Z' => Some(Hand::Scissors),
+        _ => None
     }
 }
 
-fn get_score_for_move(input: &str) -> i32 {
+fn get_score_for_move(input: &Hand) -> i32 {
     match input {
-        "Rock" => POINTS_FOR_ROCK,
-        "Paper" => POINTS_FOR_PAPER,
-        "Scissors" => POINTS_FOR_SCISSORS,
-        _ => 0
+        Hand::Rock => POINTS_FOR_ROCK,
+        Hand::Paper => POINTS_FOR_PAPER,
+        Hand::Scissors => POINTS_FOR_SCISSORS,
     }
 }
 
-fn get_expected_outcome_for_game(input: &char) -> String {
+fn get_expected_outcome_for_game(input: &char) -> Option<Result> {
     match input {
-        'X' => String::from("Loss"),
-        'Y' => String::from("Draw"),
-        'Z' => String::from("Win"),
-        _ => String::from("None")
+        'X' => Some(Result::Lose),
+        'Y' => Some(Result::Draw),
+        'Z' => Some(Result::Win),
+        _ => None
     }
 }
 
-fn get_score_for_outcome(input: &str) -> i32 {
+fn get_score_for_outcome(input: &Result) -> i32 {
     match input {
-        "Loss" => POINTS_FOR_LOSS,
-        "Draw" => POINTS_FOR_DRAW,
-        "Win" => POINTS_FOR_WIN,
-        _ => 0
+        Result::Lose => POINTS_FOR_LOSS,
+        Result::Draw => POINTS_FOR_DRAW,
+        Result::Win => POINTS_FOR_WIN,
     }
 }
 
-fn get_score_for_game(my_move: &str, opponent_move: &str) -> i32 {
+fn get_outcome_for_game(my_move: &Hand, opponent_move: &Hand) -> Result {
+    let beaten_move = Beats::beats(my_move);
+    if my_move == opponent_move {
+        Result::Draw
+    } else if opponent_move == &beaten_move {
+        Result::Win
+    } else {
+        Result::Lose
+    }
+}
+
+fn get_move_for_outcome(outcome: &Result, opponent_move: &Hand) -> Option<Hand> {
     match opponent_move {
-        "Rock" => {
-            match my_move {
-                "Rock" => POINTS_FOR_DRAW,
-                "Paper" => POINTS_FOR_WIN,
-                "Scissors" => POINTS_FOR_LOSS,
-                _ => 0,
-            }
-        },
-        "Paper" => {
-            match my_move {
-                "Rock" => POINTS_FOR_LOSS,
-                "Paper" => POINTS_FOR_DRAW,
-                "Scissors" => POINTS_FOR_WIN,
-                _ => 0,
-            }
-        },
-        "Scissors" => {
-            match my_move {
-                "Rock" => POINTS_FOR_WIN,
-                "Paper" => POINTS_FOR_LOSS,
-                "Scissors" => POINTS_FOR_DRAW,
-                _ => 0,
-            }
-        },
-        _ => 0
-    }
-}
-
-fn get_move_for_outcome(outcome: &str, opponent_move: &str) -> String {
-    match opponent_move {
-        "Rock" => {
+        Hand::Rock => {
             match outcome {
-                "Draw" => String::from("Rock"),
-                "Win" => String::from("Paper"),
-                "Loss" => String::from("Scissors"),
-                _ => String::from("None"),
+                Result::Draw => Some(Hand::Rock),
+                Result::Win => Some(Hand::Paper),
+                Result::Lose => Some(Hand::Scissors),
             }
         },
-        "Paper" => {
+        Hand::Paper => {
             match outcome {
-                "Draw" => String::from("Paper"),
-                "Win" => String::from("Scissors"),
-                "Loss" => String::from("Rock"),
-                _ => String::from("None"),
+                Result::Draw => Some(Hand::Paper),
+                Result::Win => Some(Hand::Scissors),
+                Result::Lose => Some(Hand::Rock),
             }
         },
-        "Scissors" => {
+        Hand::Scissors => {
             match outcome {
-                "Draw" => String::from("Scissors"),
-                "Win" => String::from("Rock"),
-                "Loss" => String::from("Paper"),
-                _ => String::from("None"),
+                Result::Draw => Some(Hand::Scissors),
+                Result::Win => Some(Hand::Rock),
+                Result::Lose => Some(Hand::Paper),
             }
         },
-        _ => String::from("None"),
     }
 }
 
 fn main() {
-
     let contents = fs::read_to_string("./src/input.txt")
         .expect("Should have been able to read the file");
 
@@ -117,10 +94,11 @@ fn main() {
     move_matrix.iter().for_each(|item| {
         let game = item.chars().collect::<Vec<char>>();
 
-        let opponent_move = get_move(game.get(0).unwrap());
-        let my_move = get_move(game.get(2).unwrap());
+        let opponent_move = get_move(game.get(0).unwrap()).unwrap();
+        let my_move = get_move(game.get(2).unwrap()).unwrap();
 
-        let total_score = get_score_for_move(&my_move) + get_score_for_game(&my_move, &opponent_move);
+        let outcome = get_outcome_for_game(&my_move, &opponent_move);
+        let total_score = get_score_for_move(&my_move) + get_score_for_outcome(&outcome);
 
         score = score + total_score;
     });
@@ -132,10 +110,10 @@ fn main() {
     move_matrix.iter().for_each(|item| {
         let game = item.chars().collect::<Vec<char>>();
 
-        let opponent_move = get_move(game.get(0).unwrap());
-        let expected_outcome = get_expected_outcome_for_game(game.get(2).unwrap());
+        let opponent_move = get_move(game.get(0).unwrap()).unwrap();
+        let expected_outcome = get_expected_outcome_for_game(game.get(2).unwrap()).unwrap();
 
-        let total_score = get_score_for_outcome(&expected_outcome) + get_score_for_move(&get_move_for_outcome(&expected_outcome, &opponent_move));
+        let total_score = get_score_for_outcome(&expected_outcome) + get_score_for_move(&get_move_for_outcome(&expected_outcome, &opponent_move).unwrap());
 
         score = score + total_score;
     });
