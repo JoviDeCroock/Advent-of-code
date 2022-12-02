@@ -19,8 +19,7 @@ fn main() {
     let move_matrix = contents.split("\n").collect::<Vec<&str>>();
 
     // Second column is your move
-    let mut score = 0;
-    move_matrix.iter().for_each(|item| {
+   let score = move_matrix.iter().fold(0, |acc, item| {
         let game = item.chars().collect::<Vec<char>>();
 
         let opponent_move = translate_move(game.get(0).unwrap()).unwrap();
@@ -29,14 +28,13 @@ fn main() {
         let outcome = get_outcome_for_game(&my_move, &opponent_move);
         let total_score = get_score_for_move(&my_move) + get_score_for_outcome(&outcome);
 
-        score = score + total_score;
+        acc + total_score
     });
 
     println!("Final score {:?}", score);
 
     // Second column means what the outcome should be
-    let mut score = 0;
-    move_matrix.iter().for_each(|item| {
+    let score = move_matrix.iter().fold(0, |acc, item| {
         let game = item.chars().collect::<Vec<char>>();
 
         let opponent_move = translate_move(game.get(0).unwrap()).unwrap();
@@ -44,7 +42,7 @@ fn main() {
 
         let total_score = get_score_for_outcome(&expected_outcome) + get_score_for_move(&get_move_for_outcome(&expected_outcome, &opponent_move));
 
-        score = score + total_score;
+        acc + total_score
     });
 
     println!("Final score {:?}", score);
