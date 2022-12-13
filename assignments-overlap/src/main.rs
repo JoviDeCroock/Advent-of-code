@@ -9,8 +9,8 @@ fn main() {
     let result = pairs.iter().fold(0, |acc, pair| {
         let sections = pair.split(',').collect::<Vec<&str>>();
 
-        let first_section_set = sections.get(0).unwrap().split("-").collect::<Vec<&str>>();
-        let second_section_set = sections.get(1).unwrap().split("-").collect::<Vec<&str>>();
+        let first_section_set = sections.get(0).unwrap().split('-').collect::<Vec<&str>>();
+        let second_section_set = sections.get(1).unwrap().split('-').collect::<Vec<&str>>();
 
         let first_range = std::ops::Range { start: first_section_set.get(0).unwrap().parse::<i32>().unwrap(), end: first_section_set.get(1).unwrap().parse::<i32>().unwrap() + 1 };
         let second_range = std::ops::Range { start: second_section_set.get(0).unwrap().parse::<i32>().unwrap(), end: second_section_set.get(1).unwrap().parse::<i32>().unwrap() + 1 };
@@ -43,8 +43,8 @@ fn main() {
     let result = pairs.iter().fold(0, |acc, pair| {
         let sections = pair.split(',').collect::<Vec<&str>>();
 
-        let first_section_set = sections.get(0).unwrap().split("-").collect::<Vec<&str>>();
-        let second_section_set = sections.get(1).unwrap().split("-").collect::<Vec<&str>>();
+        let first_section_set = sections.get(0).unwrap().split('-').collect::<Vec<&str>>();
+        let second_section_set = sections.get(1).unwrap().split('-').collect::<Vec<&str>>();
 
         let first_range = std::ops::Range { start: first_section_set.get(0).unwrap().parse::<i32>().unwrap(), end: first_section_set.get(1).unwrap().parse::<i32>().unwrap() + 1 };
         let second_range = std::ops::Range { start: second_section_set.get(0).unwrap().parse::<i32>().unwrap(), end: second_section_set.get(1).unwrap().parse::<i32>().unwrap() + 1 };

@@ -1,8 +1,8 @@
 fn update_knot(leader: (isize, isize), follower: &mut (isize, isize)) {
     let (x_dist, y_dist) = (leader.0 - follower.0, leader.1 - follower.1);
     if x_dist.abs() > 1 || y_dist.abs() > 1 {
-        follower.0 += 1 * x_dist.signum();
-        follower.1 += 1 * y_dist.signum();
+        follower.0 += x_dist.signum();
+        follower.1 += y_dist.signum();
     }
 }
 
@@ -24,7 +24,7 @@ std::collections::HashSet::new();
                 _ => unreachable!(),
             }
             for l in 0..num_knots - 1 {
-                update_knot(knot_positions[l as usize], &mut knot_positions[l + 1 as usize]);
+                update_knot(knot_positions[l as usize], &mut knot_positions[l + 1_usize]);
             }
             tail_positions.insert(knot_positions[num_knots - 1]);
             

@@ -6,7 +6,7 @@ fn main() {
 
     let individual_calories_by_elf = contents.split("\n\n").collect::<Vec<&str>>();
     let mut total_calories_by_elf = individual_calories_by_elf.iter().map(|element| {
-        element.split("\n").map(|s| s.parse().unwrap()).collect::<Vec<i32>>().iter().fold(0,|a, &b| a + b)
+        element.split('\n').map(|s| s.parse().unwrap()).collect::<Vec<i32>>().iter().sum()
     }).collect::<Vec<i32>>();
 
     total_calories_by_elf.sort_by(|a, b| b.cmp(a));

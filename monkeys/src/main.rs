@@ -66,7 +66,8 @@ fn solution(mut monkeys: Vec<Monkey>, cycles: usize, part1:bool) -> i128 {
             monkeys[i].items = Vec::new();
         }
     }
-    inspection_count.sort_by(|a,b| b.cmp(&a));
+
+    inspection_count.sort_by(|a,b| b.cmp(a));
     inspection_count[0] * inspection_count[1]
 }
 

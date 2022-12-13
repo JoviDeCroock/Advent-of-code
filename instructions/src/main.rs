@@ -7,8 +7,8 @@ fn main() {
 
     let mut values: Vec<i32> = vec![1];
 
-    for i in 0..lines.len() {
-        let parts = lines[i].split(" ").collect::<Vec<&str>>();
+    for line in lines {
+        let parts = line.split(' ').collect::<Vec<&str>>();
 
         let command = parts.get(0).unwrap();
         if command == &"noop" {
@@ -29,6 +29,7 @@ fn main() {
     for i in [20, 60, 100, 140, 180, 220].iter() {
         results.push(values[i - 1] * *i as i32);
     }
+
     let answer: i32 = results.iter().sum();
     println!("Result for part 1: {:?}", answer);
 

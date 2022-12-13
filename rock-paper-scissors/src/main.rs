@@ -16,7 +16,7 @@ fn main() {
     let contents = fs::read_to_string("./src/input.txt")
         .expect("Should have been able to read the file");
 
-    let move_matrix = contents.split("\n").collect::<Vec<&str>>();
+    let move_matrix = contents.split('\n').collect::<Vec<&str>>();
 
     // Second column is your move
    let score = move_matrix.iter().fold(0, |acc, item| {
@@ -102,6 +102,6 @@ fn get_move_for_outcome(outcome: &Result, opponent_move: &Hand) -> Hand {
     match outcome {
         Result::Lose => opponent_winning_hand,
         Result::Win => own_winning_hand,
-        Result::Draw => opponent_move.clone()
+        Result::Draw => *opponent_move
     }
 }
