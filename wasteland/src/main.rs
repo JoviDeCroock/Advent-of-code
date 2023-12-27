@@ -87,6 +87,7 @@ fn main() {
         .iter()
         .map(|n| get_cycle_length(n, &items, &instructions)).collect::<Vec<usize>>();
 
+    dbg!(cycle_lengths.clone());
     let mut steps = 1;
 
     for item in cycle_lengths {
