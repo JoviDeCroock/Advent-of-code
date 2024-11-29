@@ -91,7 +91,9 @@ fn main() {
     let mut steps = 1;
 
     for item in cycle_lengths {
+        println!("Steps: {}", steps);
         steps = lcm(steps, item);
+        println!("Steps: {}", steps);
     }
 
     println!("Steps: {}", steps)
