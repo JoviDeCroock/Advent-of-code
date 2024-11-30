@@ -1,5 +1,6 @@
-function greet(name: string): string {
-  return `Hello, ${name}!`;
+async function main(): Promise<void> {
+  const text = await Deno.readTextFile("day-1/input.txt");
+  console.log(text);
 }
 
-console.log(greet("world"));
+main()
