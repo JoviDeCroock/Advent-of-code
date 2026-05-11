@@ -17,34 +17,6 @@ function part1(): number {
   }, 0)
 }
 
-const testInput = `L68
-L30
-R48
-L5
-R60
-L55
-L1
-L99
-R14
-L82`.split('\n')
-
-function test2(): number {
-  let progress = 50;
-  return testInput.reduce((acc, value) => {
-    const [direction, ...numbers] = value;
-    const amount = Number(numbers.join(''));
-    if (direction === 'L') {
-      const zeroes = Math.floor((amount + ((100 - progress) % 100)) / 100);                                                                                                                                
-      progress = mod100(progress - amount);
-      return acc + zeroes;
-    } else {
-      const zeroes = Math.floor((progress + amount) / 100);                                                                                                                                                
-      progress = mod100(progress + amount);
-      return acc + zeroes;
-    }
-  }, 0)
-}
-
 // Part 2
 function part2(): number {
   let progress = 50;
@@ -64,5 +36,4 @@ function part2(): number {
 }
 
 console.log("Part 1:", part1());
-console.log("Test 2:", test2());
 console.log("Part 2:", part2());
